@@ -1964,10 +1964,22 @@
 
     const startPortal = document.getElementById('startPortal');
 
-    // URLs de áudio para o cockpit
-    audioStart.src = 'https://assets.mixkit.co/sfx/preview/mixkit-car-engine-start-1645.mp3';
+    // Tenta usar arquivo local e faz fallback para URLs remotas se houver erro (416/404/etc)
+    function setSrcWithFallback(audioElem, localUrl, remoteUrl) {
+      audioElem.src = localUrl;
+      // Se houver erro ao carregar o local (Range Not Satisfiable / 404), usa remoto
+      audioElem.addEventListener('error', function onErr() {
+        if (audioElem.src !== remoteUrl) {
+          console.warn('Áudio local falhou, usando fallback remoto:', localUrl, '->', remoteUrl);
+          audioElem.removeEventListener('error', onErr);
+          audioElem.src = remoteUrl;
+        }
+      });
+    }
+
+    setSrcWithFallback(audioStart, 'mp3/ignicao-aceleracao.mp3', 'https://assets.mixkit.co/sfx/preview/mixkit-car-engine-start-1645.mp3');
     audioIdle.src = 'https://assets.mixkit.co/sfx/preview/mixkit-car-engine-idle-1644.mp3';
-    audioRev.src = 'https://assets.mixkit.co/sfx/preview/mixkit-racing-car-engine-1641.mp3';
+    setSrcWithFallback(audioRev, 'mp3/ignicao-aceleracao.mp3', 'https://assets.mixkit.co/sfx/preview/mixkit-racing-car-engine-1641.mp3');
 
     // ========== SISTEMA DE SOM AUTOMOTIVO ==========
     // Elementos do sistema de som
