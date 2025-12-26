@@ -329,9 +329,17 @@ function toggleMedia() {
   
   if (active) {
     panel.style.display = 'flex';
-    // Optional: Play a startup sound or animation
+    // Resize canvas when panel becomes visible
+    setTimeout(resizeWaveCanvas, 100);
   } else {
     panel.style.display = 'none';
+  }
+}
+
+function resizeWaveCanvas() {
+  if (waveCanvas && waveCanvas.offsetParent !== null) {
+    waveCanvas.width = waveCanvas.offsetWidth;
+    waveCanvas.height = waveCanvas.offsetHeight;
   }
 }
 
@@ -1446,5 +1454,28 @@ function switchApp(appName) {
     view.classList.remove('active');
   });
   const activeView = document.getElementById(`app-${appName}`);
-  if (activeView) activeView.classList.add('active');
+  if (activeView) {
+    activeView.classList.add('active');
+    if (appName === 'mixer') {
+      setTimeout(resizeWaveCanvas, 50);
+    }
+  }
+}
+
+// ========== MIXER MENU SYSTEM ==========
+function showMixerView(viewName) {
+  // Hide all mixer views
+  document.querySelectorAll('.mixer-view').forEach(view => {
+    view.classList.remove('active');
+  });
+
+  // Show target view
+  const targetId = viewName === 'main-menu' ? 'mixer-main-menu' : `mixer-${viewName}`;
+  const targetView = document.getElementById(targetId);
+  if (targetView) {
+    targetView.classList.add('active');
+    if (viewName === 'main-menu') {
+      setTimeout(resizeWaveCanvas, 50);
+    }
+  }
 }

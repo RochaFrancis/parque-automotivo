@@ -1729,27 +1729,213 @@ footer {
   box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
 }
 
-/* Start Portal Embedded */
-.start-portal-embedded {
-  margin-top: 20px;
+/* MIXER MENU SYSTEM */
+.mixer-menu-system {
+  height: 100%;
+  min-height: 400px;
+  position: relative;
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
 }
 
-.btn-action {
-  background: var(--neon-blue);
-  color: #000;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 30px;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700;
+.mixer-view {
+  display: none;
+  height: 100%;
+  padding: 20px;
+  animation: slideInRight 0.3s ease;
+}
+
+.mixer-view.active {
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
   transition: all 0.2s;
 }
 
-.btn-action:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(0, 242, 255, 0.6);
+.menu-item:hover {
+  background: #222;
+  border-color: var(--neon-blue);
+  padding-left: 25px;
+}
+
+.menu-icon {
+  margin-right: 15px;
+  font-size: 1.2rem;
+}
+
+.menu-arrow {
+  color: #666;
+  font-weight: bold;
+}
+
+.mixer-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  color: var(--neon-blue);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin-right: 15px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+.mixer-header h3 {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.mixer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Mini Visualizer */
+.mini-visualizer {
+  margin-top: auto;
+  height: 100px;
+  background: #050505;
+  border: 1px solid #333;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.wave-canvas-mini {
+  width: 100%;
+  height: 100%;
+}
+
+/* Adjusted Slider Styles for Panel */
+.mixer-content .slider-control {
+  margin-bottom: 20px;
+  background: #111;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.mixer-content .slider-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.mixer-content .slider-value {
+  color: var(--neon-blue);
+  font-weight: bold;
+}
+
+/* Equalizer in Panel */
+.equalizer-graphic {
+  height: 150px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 10px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.eq-bar-wrapper {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.eq-bar {
+  width: 80%;
+  background: linear-gradient(to top, var(--neon-blue), var(--neon-purple));
+  border-radius: 2px 2px 0 0;
+  transition: height 0.1s ease;
+  min-height: 2px;
+}
+
+.eq-label {
+  font-size: 0.6rem;
+  color: #666;
+  margin-top: 5px;
+  transform: rotate(-45deg);
+  transform-origin: left top;
+  white-space: nowrap;
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+}
+
+.control-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.sound-btn {
+  background: #222;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.sound-btn:hover {
+  background: #333;
+  border-color: #666;
+}
+
+.sound-btn.active {
+  background: var(--neon-blue);
+  color: #000;
+  box-shadow: 0 0 10px var(--neon-blue);
 }
 
 .car-radio {
