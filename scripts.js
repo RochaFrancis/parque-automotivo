@@ -178,6 +178,15 @@ function fadeOut(audio, duration = 500) {
 }
 
 function ignite() {
+  // Check if Ignition Switch is ON
+  const ignitionSw = document.getElementById('sw-ignition');
+  if (!ignitionSw.classList.contains('active')) {
+    // Optional: Flash the ignition switch to indicate it needs to be on
+    ignitionSw.style.boxShadow = "0 0 10px red";
+    setTimeout(() => ignitionSw.style.boxShadow = "", 500);
+    return;
+  }
+
   if (isStarted) return;
   isStarted = true;
 
@@ -287,16 +296,42 @@ function startBlinkCheck() {
 }
 
 function toggleHighBeam() {
-  const btn = document.getElementById('btnHighBeam');
-  const active = btn.classList.toggle('active');
+  const sw = document.getElementById('sw-highbeam');
+  const active = sw.classList.toggle('active');
   if (active) {
+    // High Beam ON -> Light Mode (Bright)
     headlightLight.classList.add('on');
     hudHighBeam.classList.add('on');
-    document.body.setAttribute('data-theme', 'dark');
+    document.body.setAttribute('data-theme', 'light');
   } else {
+    // High Beam OFF -> Dark Mode (Default)
     headlightLight.classList.remove('on');
     hudHighBeam.classList.remove('on');
     document.body.removeAttribute('data-theme');
+  }
+}
+
+function toggleIgnitionSwitch() {
+  const sw = document.getElementById('sw-ignition');
+  const active = sw.classList.toggle('active');
+  
+  if (!active) {
+    // If Ignition turned OFF, shutdown engine
+    shutdown();
+  }
+  // If turned ON, it just enables the Start button logically (handled in ignite)
+}
+
+function toggleMedia() {
+  const sw = document.getElementById('sw-media');
+  const active = sw.classList.toggle('active');
+  const panel = document.querySelector('.cockpit-apps-panel');
+  
+  if (active) {
+    panel.style.display = 'flex';
+    // Optional: Play a startup sound or animation
+  } else {
+    panel.style.display = 'none';
   }
 }
 
@@ -1396,3 +1431,20 @@ presetBtns.forEach(btn => {
     }
   });
 });
+
+// ========== COCKPIT APPS ==========
+function switchApp(appName) {
+  // Update Tabs
+  document.querySelectorAll('.app-tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  const activeTab = document.querySelector(`.app-tab[onclick="switchApp('${appName}')"]`);
+  if (activeTab) activeTab.classList.add('active');
+
+  // Update Content
+  document.querySelectorAll('.app-view').forEach(view => {
+    view.classList.remove('active');
+  });
+  const activeView = document.getElementById(`app-${appName}`);
+  if (activeView) activeView.classList.add('active');
+}

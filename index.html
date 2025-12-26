@@ -102,74 +102,153 @@
         </div>
       </div>
 
-      <div class="hero-controls">
-        <div>
-          <button class="btn" onclick="ignite()" id="btnStart">Ligar Motor</button>
-          <button class="btn" onclick="shutdown()" id="btnStop">Desligar</button>
-          <button class="btn secondary" onclick="toggleHighBeam()" id="btnHighBeam">Farol Alto</button>
+      <div class="racing-switch-panel">
+        <!-- Decorative Screws -->
+        <div class="panel-screw tl"></div>
+        <div class="panel-screw tr"></div>
+        <div class="panel-screw bl"></div>
+        <div class="panel-screw br"></div>
+
+        <!-- IGNITION (Toggle) -->
+        <div class="switch-group">
+          <div class="switch-label-top">IGNITION</div>
+          <div class="toggle-switch covered" id="sw-ignition" onclick="toggleIgnitionSwitch()">
+            <div class="switch-cover"></div>
+            <div class="switch-lever"></div>
+          </div>
+          <div class="switch-label-bottom">ON/OFF</div>
+        </div>
+
+        <!-- START (Push Button) -->
+        <div class="switch-group">
+          <div class="switch-label-top">ENGINE</div>
+          <button class="engine-start-btn" id="btnStart" onclick="ignite()">START</button>
+        </div>
+
+        <!-- LIGHTS (Toggle) -->
+        <div class="switch-group">
+          <div class="switch-label-top">LIGHTS</div>
+          <div class="toggle-switch" id="sw-highbeam" onclick="toggleHighBeam()">
+            <div class="switch-lever"></div>
+          </div>
+          <div class="switch-label-bottom">HIGH BEAM</div>
+        </div>
+
+        <!-- MULTIMEDIA (Toggle) -->
+        <div class="switch-group">
+          <div class="switch-label-top">MEDIA</div>
+          <div class="toggle-switch" id="sw-media" onclick="toggleMedia()">
+            <div class="switch-lever"></div>
+          </div>
+          <div class="switch-label-bottom">SYSTEM</div>
         </div>
       </div>
 
-      <!-- RÁDIO TUNER -->
-      <div class="radio-wrapper">
-        <div class="car-radio">
-          <div class="radio-faceplate">
-            <div class="radio-display">
-              <div class="radio-freq-area">
-                <span id="radioFreq">OFF</span>
-                <span class="radio-band" id="radioBand">FM</span>
-              </div>
-              <div class="radio-info-scroller">
-                <div class="station-name" id="stationName">Parque Automotivo Radio</div>
-                <div class="track-info" id="trackInfo">Sintonize para ouvir</div>
-              </div>
-              <div class="radio-stereo-indicator" id="stereoIndicator">STEREO</div>
-            </div>
-            
-            <div class="radio-controls-row">
-              <div class="tuner-section">
-                <button class="radio-btn-round" id="btnSeekDown" title="Seek Down">◄</button>
-                <div class="tuner-slider-wrapper">
-                  <input type="range" min="875" max="1080" value="875" class="tuner-slider" id="tunerSlider">
-                  <div class="tuner-scale">
-                    <span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span>
+      <!-- COCKPIT APPS PANEL -->
+      <div class="cockpit-apps-panel">
+        <div class="apps-nav">
+          <button class="app-tab active" onclick="switchApp('radio')">
+            <span class="app-icon">📻</span> Rádio
+          </button>
+          <button class="app-tab" onclick="switchApp('mixer')">
+            <span class="app-icon">🎚️</span> Mixer
+          </button>
+          <button class="app-tab" onclick="switchApp('map')">
+            <span class="app-icon">🗺️</span> Mapa
+          </button>
+          <button class="app-tab" onclick="switchApp('amenities')">
+            <span class="app-icon">🏪</span> Serviços
+          </button>
+        </div>
+
+        <div class="apps-content">
+          <!-- APP: RÁDIO -->
+          <div class="app-view active" id="app-radio">
+            <div class="car-radio embedded">
+              <div class="radio-faceplate">
+                <div class="radio-display">
+                  <div class="radio-freq-area">
+                    <span id="radioFreq">OFF</span>
+                    <span class="radio-band" id="radioBand">FM</span>
+                  </div>
+                  <div class="radio-info-scroller">
+                    <div class="station-name" id="stationName">Parque Automotivo Radio</div>
+                    <div class="track-info" id="trackInfo">Sintonize para ouvir</div>
+                  </div>
+                  <div class="radio-stereo-indicator" id="stereoIndicator">STEREO</div>
+                </div>
+                
+                <div class="radio-controls-row">
+                  <div class="tuner-section">
+                    <button class="radio-btn-round" id="btnSeekDown" title="Seek Down">◄</button>
+                    <div class="tuner-slider-wrapper">
+                      <input type="range" min="875" max="1080" value="875" class="tuner-slider" id="tunerSlider">
+                      <div class="tuner-scale">
+                        <span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span>
+                      </div>
+                    </div>
+                    <button class="radio-btn-round" id="btnSeekUp" title="Seek Up">►</button>
                   </div>
                 </div>
-                <button class="radio-btn-round" id="btnSeekUp" title="Seek Up">►</button>
-              </div>
-            </div>
 
-            <div class="radio-bottom-row">
-              <button class="radio-pwr-btn" id="radioPwr" title="Power On/Off">
-                <div class="pwr-icon">⏻</div>
-              </button>
-              
-              <div class="preset-group">
-                <button class="preset-btn" data-slot="1">1</button>
-                <button class="preset-btn" data-slot="2">2</button>
-                <button class="preset-btn" data-slot="3">3</button>
-                <button class="preset-btn" data-slot="4">4</button>
-                <button class="preset-btn" data-slot="5">5</button>
-                <button class="preset-btn" data-slot="6">6</button>
-              </div>
+                <div class="radio-bottom-row">
+                  <button class="radio-pwr-btn" id="radioPwr" title="Power On/Off">
+                    <div class="pwr-icon">⏻</div>
+                  </button>
+                  
+                  <div class="preset-group">
+                    <button class="preset-btn" data-slot="1">1</button>
+                    <button class="preset-btn" data-slot="2">2</button>
+                    <button class="preset-btn" data-slot="3">3</button>
+                    <button class="preset-btn" data-slot="4">4</button>
+                    <button class="preset-btn" data-slot="5">5</button>
+                    <button class="preset-btn" data-slot="6">6</button>
+                  </div>
 
-              <div class="radio-vol-wrapper">
-                <span class="vol-label">VOL</span>
-                <input type="range" min="0" max="100" value="50" class="radio-vol-slider" id="radioVol">
-              </div>
-            </div>
-
-            <!-- Botão Start / Entrar no Parque (Moved inside Radio) -->
-            <div class="start-portal" id="startPortal">
-              <div class="start-button-round" onclick="entrarSistemaSom()">
-                <div class="start-ring"></div>
-                <div style="text-align:center; z-index:2;">
-                  <div class="start-label-sub">EXPANDIR</div>
-                  <div class="start-label-main">MIXER</div>
+                  <div class="radio-vol-wrapper">
+                    <span class="vol-label">VOL</span>
+                    <input type="range" min="0" max="100" value="50" class="radio-vol-slider" id="radioVol">
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
 
+          <!-- APP: MIXER -->
+          <div class="app-view" id="app-mixer">
+            <div class="app-placeholder-content">
+              <h3>Controle de Áudio Profissional</h3>
+              <p>Acesse o equalizador gráfico e controle de subwoofer.</p>
+              <div class="start-portal-embedded" onclick="entrarSistemaSom()">
+                <button class="btn-action">ABRIR MIXER COMPLETO</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- APP: MAPA -->
+          <div class="app-view" id="app-map">
+            <div class="app-placeholder-content">
+              <h3>Navegação GPS</h3>
+              <div class="map-mockup">
+                <div class="map-grid"></div>
+                <div class="map-route-line"></div>
+                <div class="map-marker-icon">📍</div>
+              </div>
+              <p>Rota calculada: Autódromo de Interlagos</p>
+            </div>
+          </div>
+
+          <!-- APP: SERVIÇOS -->
+          <div class="app-view" id="app-amenities">
+            <div class="app-placeholder-content">
+              <h3>Serviços Próximos</h3>
+              <div class="amenities-grid">
+                <div class="amenity-item">⛽ Posto</div>
+                <div class="amenity-item">🍔 Drive-Thru</div>
+                <div class="amenity-item">🔧 Mecânico</div>
+                <div class="amenity-item">🏧 Banco 24h</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

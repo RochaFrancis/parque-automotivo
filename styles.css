@@ -7,59 +7,7 @@
   --neon-pink: #ff00ff;
   --neon-orange: #ff7700;
   
-  /* Semantic Colors - Light Mode (Default) */
-  --bg-page: #f5f5f8;
-  --bg-card: #ffffff;
-  --text-primary: #222;
-  --text-secondary: #555;
-  --border-color: #ddd;
-
-  /* Section Specifics (Light Mode) */
-  --bg-hero: radial-gradient(circle at top, #e0e0e5 0%, #f5f5f8 100%);
-  --bg-sound-system: linear-gradient(135deg, #eef 0%, #f5f5f8 100%);
-  --bg-section: #f5f5f8;
-  --bg-header: rgba(255, 255, 255, 0.95);
-  --text-header: #222;
-  --text-hero: #222;
-  --text-sound-system: #222;
-  --border-header: #ddd;
-  --nav-hover-bg: rgba(0, 0, 0, 0.05);
-  
-  /* Component Specifics (Light Mode) */
-  --bg-dashboard: radial-gradient(circle, #e0e0e5 0%, #ccc 100%);
-  --bg-radio-outer: #e0e0e5;
-  --bg-radio-face: #f0f0f5;
-  --bg-speaker: linear-gradient(145deg, #f0f0f0 0%, #d0d0d0 100%);
-  --bg-sound-panel: linear-gradient(145deg, #f0f0f0 0%, #d0d0d0 100%);
-  --bg-control-group: rgba(255, 255, 255, 0.6);
-  --border-component: #bbb;
-  --shadow-component: 0 10px 30px rgba(0,0,0,0.1);
-  
-  /* Semantic Text Colors (Light Mode - Darker for contrast) */
-  --text-accent-blue: #0066cc;
-  --text-accent-red: #d60036;
-  --text-accent-green: #00994d;
-  --text-accent-yellow: #b38f00;
-  --text-accent-purple: #8800cc;
-  --text-accent-pink: #cc00cc;
-  --text-accent-orange: #cc5500;
-
-  /* Legacy/Specific Colors */
-  --bg-dark: #050608;
-  --text-main-dark: #f5f5f5;
-  --text-main-light: #222;
-  --accent: #ff003c;
-  
-  /* Glow Effects */
-  --glow: 0 0 20px rgba(0, 242, 255, 0.6);
-  --red-glow: 0 0 25px rgba(255, 0, 60, 0.8);
-  --green-glow: 0 0 25px rgba(0, 255, 127, 0.8);
-  --purple-glow: 0 0 25px rgba(196, 0, 255, 0.8);
-  --pink-glow: 0 0 25px rgba(255, 0, 255, 0.8);
-  --orange-glow: 0 0 25px rgba(255, 119, 0, 0.8);
-}
-
-[data-theme="dark"] {
+  /* Semantic Colors - Dark Mode (Default) */
   --bg-page: #050608;
   --bg-card: #1a1a1a;
   --text-primary: #f5f5f5;
@@ -95,6 +43,59 @@
   --text-accent-purple: var(--neon-purple);
   --text-accent-pink: var(--neon-pink);
   --text-accent-orange: var(--neon-orange);
+
+  /* Legacy/Specific Colors */
+  --bg-dark: #050608;
+  --text-main-dark: #f5f5f5;
+  --text-main-light: #222;
+  --accent: #ff003c;
+  
+  /* Glow Effects */
+  --glow: 0 0 20px rgba(0, 242, 255, 0.6);
+  --red-glow: 0 0 25px rgba(255, 0, 60, 0.8);
+  --green-glow: 0 0 25px rgba(0, 255, 127, 0.8);
+  --purple-glow: 0 0 25px rgba(196, 0, 255, 0.8);
+  --pink-glow: 0 0 25px rgba(255, 0, 255, 0.8);
+  --orange-glow: 0 0 25px rgba(255, 119, 0, 0.8);
+}
+
+[data-theme="light"] {
+  /* Semantic Colors - Light Mode */
+  --bg-page: #f5f5f8;
+  --bg-card: #ffffff;
+  --text-primary: #222;
+  --text-secondary: #555;
+  --border-color: #ddd;
+
+  /* Section Specifics (Light Mode) */
+  --bg-hero: radial-gradient(circle at top, #e0e0e5 0%, #f5f5f8 100%);
+  --bg-sound-system: linear-gradient(135deg, #eef 0%, #f5f5f8 100%);
+  --bg-section: #f5f5f8;
+  --bg-header: rgba(255, 255, 255, 0.95);
+  --text-header: #222;
+  --text-hero: #222;
+  --text-sound-system: #222;
+  --border-header: #ddd;
+  --nav-hover-bg: rgba(0, 0, 0, 0.05);
+  
+  /* Component Specifics (Light Mode) */
+  --bg-dashboard: radial-gradient(circle, #e0e0e5 0%, #ccc 100%);
+  --bg-radio-outer: #e0e0e5;
+  --bg-radio-face: #f0f0f5;
+  --bg-speaker: linear-gradient(145deg, #f0f0f0 0%, #d0d0d0 100%);
+  --bg-sound-panel: linear-gradient(145deg, #f0f0f0 0%, #d0d0d0 100%);
+  --bg-control-group: rgba(255, 255, 255, 0.6);
+  --border-component: #bbb;
+  --shadow-component: 0 10px 30px rgba(0,0,0,0.1);
+  
+  /* Semantic Text Colors (Light Mode - Darker for contrast) */
+  --text-accent-blue: #0066cc;
+  --text-accent-red: #d60036;
+  --text-accent-green: #00994d;
+  --text-accent-yellow: #b38f00;
+  --text-accent-purple: #8800cc;
+  --text-accent-pink: #cc00cc;
+  --text-accent-orange: #cc5500;
 }
 
 * {
@@ -457,13 +458,159 @@ main {
   border-radius: 2px;
 }
 
-/* HERO CONTROLS */
-.hero-controls {
+/* RACING SWITCH PANEL */
+.racing-switch-panel {
+  background: linear-gradient(135deg, #d0d0d0 0%, #f5f5f5 50%, #d0d0d0 100%);
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 20px 30px;
+  display: flex;
+  gap: 30px;
+  box-shadow: 
+    0 10px 20px rgba(0,0,0,0.5),
+    inset 0 0 0 2px rgba(255,255,255,0.5);
+  position: relative;
   margin-top: 30px;
+  z-index: 20;
+}
+
+/* Screws */
+.panel-screw {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #ccc 0%, #888 100%);
+  border-radius: 50%;
+  border: 1px solid #666;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.panel-screw::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 6px; height: 1px;
+  background: #444;
+}
+.panel-screw::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 6px; height: 1px;
+  background: #444;
+}
+.panel-screw.tl { top: 5px; left: 5px; }
+.panel-screw.tr { top: 5px; right: 5px; }
+.panel-screw.bl { bottom: 5px; left: 5px; }
+.panel-screw.br { bottom: 5px; right: 5px; }
+
+.switch-group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 10px;
+}
+
+.switch-label-top, .switch-label-bottom {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 0.7rem;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.switch-label-top { color: #cc0000; } /* Racing Red Text */
+
+/* TOGGLE SWITCH */
+.toggle-switch {
+  width: 40px;
+  height: 60px;
+  background: #333;
+  border: 2px solid #000;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: inset 0 0 5px #000;
+}
+
+.toggle-switch .switch-lever {
+  width: 10px;
+  height: 30px;
+  background: linear-gradient(to right, #ccc, #fff, #ccc);
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 5px); /* OFF Position (Down) */
+  transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  z-index: 2;
+}
+
+.toggle-switch.active .switch-lever {
+  transform: translate(-50%, -25px); /* ON Position (Up) */
+}
+
+/* Safety Cover */
+.toggle-switch.covered .switch-cover {
+  position: absolute;
+  top: -10px;
+  left: -5px;
+  width: 50px;
+  height: 60px;
+  background: rgba(255, 0, 0, 0.8);
+  border: 1px solid #cc0000;
+  border-radius: 4px 4px 0 0;
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.3s ease;
+  z-index: 5;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+  pointer-events: none; /* Let clicks pass through to switch */
+}
+
+.toggle-switch.covered:hover .switch-cover,
+.toggle-switch.covered.active .switch-cover {
+  transform: rotateX(160deg);
+}
+
+/* ENGINE START BUTTON */
+.engine-start-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff3333 0%, #cc0000 100%);
+  border: 4px solid #e0e0e0;
+  box-shadow: 
+    0 5px 10px rgba(0,0,0,0.4),
+    inset 0 2px 5px rgba(255,255,255,0.4);
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+  transition: all 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.engine-start-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+  background: radial-gradient(circle, #cc0000 0%, #990000 100%);
+}
+
+.engine-start-btn.active {
+  background: radial-gradient(circle, #ff6666 0%, #ff0000 100%);
+  box-shadow: 0 0 20px #ff0000;
+  border-color: #fff;
 }
 
 .btn {
@@ -1426,13 +1573,183 @@ footer {
 }
 
 /* RADIO TUNER STYLES */
-.radio-wrapper {
+/* COCKPIT APPS PANEL */
+.cockpit-apps-panel {
   width: 100%;
   max-width: 800px;
-  margin: 20px auto;
-  padding: 0 20px;
-  position: relative;
+  margin: 30px auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-component);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-component);
+  display: none; /* Hidden by default, toggled by Media Switch */
+  flex-direction: column;
   z-index: 10;
+  position: relative;
+}
+
+.apps-nav {
+  display: flex;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-component);
+}
+
+.app-tab {
+  flex: 1;
+  padding: 15px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-right: 1px solid var(--border-component);
+}
+
+.app-tab:last-child {
+  border-right: none;
+}
+
+.app-tab:hover {
+  background: var(--nav-hover-bg);
+  color: var(--text-primary);
+}
+
+.app-tab.active {
+  background: var(--bg-card);
+  color: var(--text-accent-blue);
+  box-shadow: inset 0 -2px 0 var(--text-accent-blue);
+}
+
+.apps-content {
+  min-height: 300px;
+  position: relative;
+}
+
+.app-view {
+  display: none;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.app-view.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Embedded Radio Adjustments */
+.car-radio.embedded {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+}
+
+.car-radio.embedded::before {
+  display: none;
+}
+
+/* App Placeholders */
+.app-placeholder-content {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+}
+
+.app-placeholder-content h3 {
+  color: var(--text-primary);
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 15px;
+}
+
+.map-mockup {
+  width: 100%;
+  height: 200px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin: 20px 0;
+  position: relative;
+  overflow: hidden;
+  background-image: 
+    linear-gradient(#222 1px, transparent 1px),
+    linear-gradient(90deg, #222 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.map-route-line {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  width: 60%;
+  height: 4px;
+  background: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+  transform: rotate(-10deg);
+}
+
+.map-marker-icon {
+  position: absolute;
+  top: 40%;
+  left: 75%;
+  font-size: 24px;
+  filter: drop-shadow(0 0 5px var(--neon-red));
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.amenity-item {
+  background: var(--bg-control-group);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--border-component);
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.amenity-item:hover {
+  border-color: var(--text-accent-blue);
+  box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+}
+
+/* Start Portal Embedded */
+.start-portal-embedded {
+  margin-top: 20px;
+}
+
+.btn-action {
+  background: var(--neon-blue);
+  color: #000;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+  transition: all 0.2s;
+}
+
+.btn-action:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 242, 255, 0.6);
 }
 
 .car-radio {
