@@ -33,8 +33,9 @@ const startPortal = document.getElementById('startPortal');
 
 // URLs de áudio para o sistema de cockpit
 audioStart.src = 'https://cdn.freesound.org/previews/651/651534_2396512-hq.mp3';
-audioIdle.src = 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_26c2a95505.mp3?filename=idling-car-6038.mp3';
-audioRev.src = 'https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=car-start-6037.mp3'; // Fallback to start sound for now or find better rev sound
+// Using reliable Freesound previews for car sounds
+audioIdle.src = 'https://cdn.freesound.org/previews/540/540838_11936606-lq.mp3';
+audioRev.src = 'https://cdn.freesound.org/previews/483/483686_10362730-lq.mp3';
 
 // ========== SISTEMA DE SOM AUTOMOTIVO ==========
 // Elementos do sistema de som
@@ -111,9 +112,10 @@ const soundPowerOff = document.getElementById('soundPowerOff');
 // URLs de áudio para o sistema de som
 soundSystemDemo.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
 soundBassTest.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
-soundButton.src = 'https://www.soundjay.com/buttons/sounds/button-16.mp3';
-soundPowerOn.src = 'https://www.soundjay.com/buttons/sounds/button-3.mp3';
-soundPowerOff.src = 'https://www.soundjay.com/buttons/sounds/button-4.mp3';
+// Using reliable Freesound previews for UI sounds
+soundButton.src = 'https://cdn.freesound.org/previews/256/256113_3263906-lq.mp3';
+soundPowerOn.src = 'https://cdn.freesound.org/previews/345/345299_6351518-lq.mp3';
+soundPowerOff.src = 'https://cdn.freesound.org/previews/345/345299_6351518-lq.mp3';
 
 // Configuração inicial dos áudios
 audioStart.volume = 0.7;
@@ -442,30 +444,35 @@ function initSliders() {
   
   // Adicionar eventos aos sliders
   setupSlider(volumeSlider, volumeFill, volumeHandle, volumeValue, (value) => {
+    console.log('Volume Slider changed:', value);
     currentVolume = value;
     volumeValue.textContent = `${Math.round(value * 100)}%`;
     updateSoundSystem();
   });
   
   setupSlider(bassSlider, bassFill, bassHandle, bassValue, (value) => {
+    console.log('Bass Slider changed:', value);
     currentBass = value;
     bassValue.textContent = `${Math.round(value * 100)}%`;
     updateSoundSystem();
   });
   
   setupSlider(trebleSlider, trebleFill, trebleHandle, trebleValue, (value) => {
+    console.log('Treble Slider changed:', value);
     currentTreble = value;
     trebleValue.textContent = `${Math.round(value * 100)}%`;
     updateSoundSystem();
   });
   
   setupSlider(reverbSlider, reverbFill, reverbHandle, reverbValue, (value) => {
+    console.log('Reverb Slider changed:', value);
     currentReverb = value;
     reverbValue.textContent = `${Math.round(value * 100)}%`;
     updateSoundSystem();
   });
   
   setupSlider(fadeSlider, fadeFill, fadeHandle, fadeValue, (value) => {
+    console.log('Fade Slider changed:', value);
     currentFade = value;
     fadeValue.textContent = `${Math.round(value * 100)}%`;
     updateSoundSystem();
@@ -950,6 +957,21 @@ function updateSoundSystem() {
     // Nota: Em um sistema real, usaríamos Web Audio API para aplicar esses efeitos
     // Por simplicidade, apenas ajustamos o volume
     soundSystemDemo.volume = currentVolume * (1 + reverbAmount * 0.2);
+  } else if (isRadioOn && !radioAudio.paused) {
+    // Control radio volume with mixer volume
+    // Note: radioAudio.volume is 0-1, currentVolume is 0-1
+    // We combine the radio's own volume knob (radioVolSlider) with the mixer master volume
+    // But for now, let's just let the mixer master volume control the radio output if system is on
+    
+    // If the system is ON, we want the mixer to affect the radio sound
+    // Since we don't have a full Web Audio graph connecting them, we'll simulate it by adjusting volume
+    // based on mixer settings.
+    
+    // Calculate effective volume: Radio Knob * Mixer Master * Bass/Treble simulation
+    const radioKnobVol = radioVolSlider ? (radioVolSlider.value / 100) : 0.5;
+    const mixerEffect = currentVolume * (0.8 + (currentBass * 0.2)); // Bass adds a bit of perceived volume
+    
+    radioAudio.volume = Math.min(1, radioKnobVol * mixerEffect);
   }
   
   // Atualizar medidores
@@ -1030,13 +1052,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Liberar áudio no primeiro clique do usuário
 document.addEventListener('click', function initAudio() {
-  // Tentar tocar um som silencioso para liberar o áudio
-  const silentAudio = new Audio();
-  silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ';
-  silentAudio.volume = 0.001;
-  silentAudio.play().then(() => {
-    console.log('Áudio liberado!');
-  }).catch(console.error);
+  // Create an AudioContext to unlock audio on user gesture
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (AudioContext) {
+    const ctx = new AudioContext();
+    ctx.resume().then(() => {
+      console.log('AudioContext resumed/unlocked');
+      ctx.close();
+    });
+  }
   
   document.removeEventListener('click', initAudio);
 }, { once: true });
@@ -1062,17 +1086,23 @@ let tuningTimeout;
 // Initialize Radio
 async function initRadio() {
   try {
-    const response = await fetch('https://de1.api.radio-browser.info/json/stations/search?limit=40&countrycode=BR&hidebroken=true&order=clickcount&reverse=true');
+    // Fetch stations, excluding broken ones and ensuring HTTPS if possible
+    // Note: The API doesn't have a direct 'password' filter, but usually public stations are returned.
+    // We will filter client-side if needed, but standard search usually returns public streams.
+    const response = await fetch('https://de1.api.radio-browser.info/json/stations/search?limit=60&countrycode=BR&hidebroken=true&order=clickcount&reverse=true');
     const data = await response.json();
     
-    // Assign random frequencies to stations
-    // Sort by frequency to make tuning realistic
-    radioStations = data.map(station => {
-      return {
-        ...station,
-        freq: (Math.random() * (108 - 87.5) + 87.5).toFixed(1)
-      };
-    }).sort((a, b) => parseFloat(a.freq) - parseFloat(b.freq));
+    // Filter out stations that might be password protected or have weird codecs if possible
+    // And assign random frequencies
+    radioStations = data
+      .filter(s => s.url_resolved && !s.url_resolved.includes('password'))
+      .map(station => {
+        return {
+          ...station,
+          freq: (Math.random() * (108 - 87.5) + 87.5).toFixed(1)
+        };
+      })
+      .sort((a, b) => parseFloat(a.freq) - parseFloat(b.freq));
     
     console.log('Radio stations loaded:', radioStations.length);
   } catch (error) {
@@ -1132,19 +1162,164 @@ function tuneToFrequency(freq) {
   }
 }
 
-function playStation(station) {
-  if (radioAudio.src !== station.url_resolved) {
-    radioAudio.src = station.url_resolved;
-    radioAudio.play().catch(e => console.log("Playback error:", e));
+let currentPlayPromise = null;
+let retryCount = 0;
+
+async function checkStreamAvailability(url) {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 2000); // 2s timeout
+    
+    // Use GET with range to minimize data transfer, but check status
+    // Note: Some servers might not support Range, but we just want to see if it's 401/403
+    const response = await fetch(url, { 
+      method: 'GET', 
+      signal: controller.signal,
+      headers: { 'Range': 'bytes=0-128' } 
+    });
+    
+    clearTimeout(id);
+    
+    // Abort the download immediately as we only care about headers/status
+    controller.abort();
+    
+    if (response.status === 401 || response.status === 403) {
+      console.warn(`Stream check failed: ${response.status}`);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    // Network error or CORS error.
+    // If it's a CORS error, the fetch throws. We assume it might still work in audio tag (opaque response).
+    // If it's a timeout, we also give it a try.
+    return true; 
   }
+}
+
+async function playStation(station) {
+  // If already playing this station, do nothing
+  if (radioAudio.src === station.url_resolved && !radioAudio.paused) return;
+
+  // Reset retry count when switching stations
+  retryCount = 0;
+
   radioStationName.textContent = station.name;
-  radioTrackInfo.textContent = station.tags || "Sem informações";
-  stereoIndicator.classList.add('active');
+  // Show loading state immediately
+  radioTrackInfo.textContent = "Carregando...";
+  stereoIndicator.classList.remove('active');
+  stereoIndicator.style.opacity = "0.5"; // Dimmed while loading
+
+  // Check availability first to avoid 401/403 errors if possible
+  const isAvailable = await checkStreamAvailability(station.url_resolved);
+  
+  if (!isAvailable) {
+    console.warn('Stream pre-check failed (Auth/Forbidden)');
+    handlePlaybackError(station);
+    return;
+  }
+
+  // Set source
+  radioAudio.src = station.url_resolved;
+  
+  // Play with AbortError handling
+  currentPlayPromise = radioAudio.play();
+  
+  if (currentPlayPromise !== undefined) {
+    currentPlayPromise.then(() => {
+        // Playback started successfully
+        radioTrackInfo.textContent = station.tags || "Ao Vivo";
+        stereoIndicator.classList.add('active');
+        stereoIndicator.style.opacity = "1";
+        
+        // If Sound System is ON, ensure volume is synced
+        if (soundSystemActive) {
+            updateSoundSystem();
+        }
+    }).catch(error => {
+      if (error.name === 'AbortError') {
+        // Ignore abort errors caused by rapid switching
+        console.log('Playback aborted for new request');
+      } else {
+        console.error('Playback error:', error);
+        handlePlaybackError(station);
+      }
+    });
+  }
 }
 
 function stopRadio() {
   radioAudio.pause();
   radioAudio.src = "";
+  radioTrackInfo.textContent = "Sintonize para ouvir";
+  stereoIndicator.classList.remove('active');
+}
+
+// Add error listener for stream failures (403, 404, codec issues)
+radioAudio.addEventListener('error', (e) => {
+  console.warn('Radio Stream Error:', e);
+  if (isRadioOn) {
+    // Find current station
+    const freq = (tunerSlider.value / 10).toFixed(1);
+    const station = radioStations.find(s => Math.abs(parseFloat(s.freq) - parseFloat(freq)) < 0.3);
+    
+    if (station) {
+      handlePlaybackError(station);
+    }
+  }
+});
+
+async function handlePlaybackError(station) {
+  if (retryCount < 1) {
+    retryCount++;
+    radioTrackInfo.textContent = "Tentando reconectar...";
+    console.log(`Retrying station ${station.name} (Attempt ${retryCount})...`);
+    
+    try {
+      // Try to resolve a fresh URL for this station UUID
+      const response = await fetch(`https://de1.api.radio-browser.info/json/stations/byuuid/${station.stationuuid}`);
+      const data = await response.json();
+      
+      if (data && data.length > 0 && data[0].url_resolved) {
+        const newUrl = data[0].url_resolved;
+        console.log('New URL resolved:', newUrl);
+        
+        // Check if new URL is also bad
+        const isAvailable = await checkStreamAvailability(newUrl);
+        if (!isAvailable) {
+             console.warn('New URL also failed pre-check');
+             showErrorState();
+             return;
+        }
+
+        // Update station object
+        station.url_resolved = newUrl;
+        
+        // Try playing again with new URL
+        radioAudio.src = newUrl;
+        radioAudio.play().then(() => {
+           radioTrackInfo.textContent = station.tags || "Ao Vivo";
+           stereoIndicator.classList.add('active');
+           stereoIndicator.style.opacity = "1";
+        }).catch(e => {
+           console.error('Retry failed:', e);
+           showErrorState();
+        });
+      } else {
+        showErrorState();
+      }
+    } catch (err) {
+      console.error('Error resolving new URL:', err);
+      showErrorState();
+    }
+  } else {
+    showErrorState();
+  }
+}
+
+function showErrorState() {
+  radioStationName.textContent = "Estação Indisponível";
+  radioTrackInfo.textContent = "Tente outra frequência";
+  stereoIndicator.classList.remove('active');
 }
 
 // Seek Buttons
