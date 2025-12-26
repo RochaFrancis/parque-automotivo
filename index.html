@@ -108,19 +108,6 @@
           <button class="btn" onclick="shutdown()" id="btnStop">Desligar</button>
           <button class="btn secondary" onclick="toggleHighBeam()" id="btnHighBeam">Farol Alto</button>
         </div>
-
-        <!-- Botão Start / Entrar no Parque -->
-        <div class="start-portal" id="startPortal">
-          <div class="start-button-round" onclick="entrarSistemaSom()">
-            <div class="start-ring"></div>
-            <div style="text-align:center; z-index:2;">
-              <div class="start-label-sub">SISTEMA DE</div>
-              <div class="start-label-main">SOM</div>
-              <div class="start-label-sub">Automotivo</div>
-            </div>
-          </div>
-          <small>Disponível após ligar o motor</small>
-        </div>
       </div>
 
       <!-- RÁDIO TUNER -->
@@ -171,6 +158,18 @@
                 <input type="range" min="0" max="100" value="50" class="radio-vol-slider" id="radioVol">
               </div>
             </div>
+
+            <!-- Botão Start / Entrar no Parque (Moved inside Radio) -->
+            <div class="start-portal" id="startPortal">
+              <div class="start-button-round" onclick="entrarSistemaSom()">
+                <div class="start-ring"></div>
+                <div style="text-align:center; z-index:2;">
+                  <div class="start-label-sub">EXPANDIR</div>
+                  <div class="start-label-main">MIXER</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

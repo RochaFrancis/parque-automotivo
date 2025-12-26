@@ -203,7 +203,10 @@ function ignite() {
   gearTxt.innerText = "N";
 
   audioStart.currentTime = 0;
-  audioStart.play();
+  audioStart.play().catch(e => console.error("Audio play error:", e));
+  
+  // Show portal immediately
+  startPortal.classList.add('visible');
 
   audioStart.onended = () => {
     audioIdle.currentTime = 0;
@@ -213,8 +216,6 @@ function ignite() {
     audioRev.currentTime = 0;
     audioRev.play();
     audioRev.volume = 0;
-
-    startPortal.classList.add('visible');
   };
 }
 
@@ -291,9 +292,11 @@ function toggleHighBeam() {
   if (active) {
     headlightLight.classList.add('on');
     hudHighBeam.classList.add('on');
+    document.body.setAttribute('data-theme', 'dark');
   } else {
     headlightLight.classList.remove('on');
     hudHighBeam.classList.remove('on');
+    document.body.removeAttribute('data-theme');
   }
 }
 
@@ -356,10 +359,17 @@ function accelerate(e) {
 }
 
 function entrarSistemaSom() {
-  document.getElementById('sound-system').scrollIntoView({ 
-    behavior: 'smooth',
-    block: 'start'
-  });
+  const soundSystem = document.getElementById('sound-system');
+  soundSystem.classList.toggle('expanded');
+  
+  if (soundSystem.classList.contains('expanded')) {
+    setTimeout(() => {
+      soundSystem.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 300); // Wait for expansion to start
+  }
 }
 
 document.addEventListener("mousemove", accelerate);

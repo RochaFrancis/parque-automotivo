@@ -6,19 +6,95 @@
   --neon-purple: #c400ff;
   --neon-pink: #ff00ff;
   --neon-orange: #ff7700;
+  
+  /* Semantic Colors - Light Mode (Default) */
+  --bg-page: #f5f5f8;
+  --bg-card: #ffffff;
+  --text-primary: #222;
+  --text-secondary: #555;
+  --border-color: #ddd;
+
+  /* Section Specifics (Light Mode) */
+  --bg-hero: radial-gradient(circle at top, #e0e0e5 0%, #f5f5f8 100%);
+  --bg-sound-system: linear-gradient(135deg, #eef 0%, #f5f5f8 100%);
+  --bg-section: #f5f5f8;
+  --bg-header: rgba(255, 255, 255, 0.95);
+  --text-header: #222;
+  --text-hero: #222;
+  --text-sound-system: #222;
+  --border-header: #ddd;
+  --nav-hover-bg: rgba(0, 0, 0, 0.05);
+  
+  /* Component Specifics (Light Mode) */
+  --bg-dashboard: radial-gradient(circle, #e0e0e5 0%, #ccc 100%);
+  --bg-radio-outer: #e0e0e5;
+  --bg-radio-face: #f0f0f5;
+  --bg-speaker: linear-gradient(145deg, #f0f0f0 0%, #d0d0d0 100%);
+  --bg-sound-panel: linear-gradient(145deg, #f0f0f0 0%, #d0d0d0 100%);
+  --bg-control-group: rgba(255, 255, 255, 0.6);
+  --border-component: #bbb;
+  --shadow-component: 0 10px 30px rgba(0,0,0,0.1);
+  
+  /* Semantic Text Colors (Light Mode - Darker for contrast) */
+  --text-accent-blue: #0066cc;
+  --text-accent-red: #d60036;
+  --text-accent-green: #00994d;
+  --text-accent-yellow: #b38f00;
+  --text-accent-purple: #8800cc;
+  --text-accent-pink: #cc00cc;
+  --text-accent-orange: #cc5500;
+
+  /* Legacy/Specific Colors */
   --bg-dark: #050608;
   --text-main-dark: #f5f5f5;
   --text-main-light: #222;
   --accent: #ff003c;
+  
+  /* Glow Effects */
   --glow: 0 0 20px rgba(0, 242, 255, 0.6);
   --red-glow: 0 0 25px rgba(255, 0, 60, 0.8);
   --green-glow: 0 0 25px rgba(0, 255, 127, 0.8);
   --purple-glow: 0 0 25px rgba(196, 0, 255, 0.8);
   --pink-glow: 0 0 25px rgba(255, 0, 255, 0.8);
   --orange-glow: 0 0 25px rgba(255, 119, 0, 0.8);
-  --section-bg-light: #f5f5f8;
-  --card-bg-light: #ffffff;
-  --border-light: #ddd;
+}
+
+[data-theme="dark"] {
+  --bg-page: #050608;
+  --bg-card: #1a1a1a;
+  --text-primary: #f5f5f5;
+  --text-secondary: #aaa;
+  --border-color: #333;
+
+  /* Section Specifics (Dark Mode) */
+  --bg-hero: radial-gradient(circle at top, #161825 0%, #050608 45%, #000 100%);
+  --bg-sound-system: linear-gradient(135deg, #0a0a0f 0%, #050608 100%);
+  --bg-section: #050608;
+  --bg-header: rgba(0, 0, 0, 0.95);
+  --text-header: #f5f5f5;
+  --text-hero: #f5f5f5;
+  --text-sound-system: #f5f5f5;
+  --border-header: #222;
+  --nav-hover-bg: rgba(255, 255, 255, 0.06);
+
+  /* Component Specifics (Dark Mode) */
+  --bg-dashboard: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+  --bg-radio-outer: #111;
+  --bg-radio-face: #1a1a1a;
+  --bg-speaker: linear-gradient(145deg, #111 0%, #000 100%);
+  --bg-sound-panel: linear-gradient(145deg, #111 0%, #000 100%);
+  --bg-control-group: rgba(0, 0, 0, 0.4);
+  --border-component: #222;
+  --shadow-component: 0 10px 30px rgba(0,0,0,0.5);
+
+  /* Semantic Text Colors (Dark Mode - Neon) */
+  --text-accent-blue: var(--neon-blue);
+  --text-accent-red: var(--neon-red);
+  --text-accent-green: var(--neon-green);
+  --text-accent-yellow: var(--neon-yellow);
+  --text-accent-purple: var(--neon-purple);
+  --text-accent-pink: var(--neon-pink);
+  --text-accent-orange: var(--neon-orange);
 }
 
 * {
@@ -30,9 +106,10 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: var(--section-bg-light);
-  color: var(--text-main-light);
+  background: var(--bg-page);
+  color: var(--text-primary);
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -47,15 +124,16 @@ header {
   left: 0;
   right: 0;
   height: 70px;
-  background: rgba(0, 0, 0, 0.95);
-  border-bottom: 1px solid #222;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-header);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
   z-index: 1000;
-  color: var(--text-main-dark);
+  color: var(--text-header);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .logo-area {
@@ -104,11 +182,11 @@ nav li a {
   padding: 6px 10px;
   border-radius: 999px;
   transition: 0.25s;
-  color: #f5f5f5;
+  color: var(--text-header);
 }
 
 nav li a:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--nav-hover-bg);
   color: var(--neon-blue);
 }
 
@@ -126,8 +204,9 @@ main {
   padding: 40px 20px 80px;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at top, #161825 0%, #050608 45%, #000 100%);
-  color: var(--text-main-dark);
+  background: var(--bg-hero);
+  color: var(--text-hero);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .hero-bg-gradient {
@@ -191,14 +270,15 @@ main {
   width: 980px;
   max-width: 100%;
   height: 460px;
-  background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
-  border: 4px solid #222;
+  background: var(--bg-dashboard);
+  border: 4px solid var(--border-component);
   border-radius: 50px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0 50px 100px rgba(0,0,0,1), inset 0 0 60px #000;
+  box-shadow: var(--shadow-component), inset 0 0 60px rgba(0,0,0,0.5);
   padding: 10px;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .hud-strip {
@@ -226,7 +306,7 @@ main {
 }
 
 .hud-item.on {
-  color: var(--neon-yellow);
+  color: var(--text-accent-yellow);
   text-shadow: 0 0 10px var(--neon-yellow);
   opacity: 1;
 }
@@ -245,7 +325,7 @@ main {
 }
 
 .gauge-title {
-  color: var(--neon-blue);
+  color: var(--text-accent-blue);
   font-size: 1rem;
   margin-bottom: 5px;
   text-shadow: var(--glow);
@@ -278,13 +358,13 @@ main {
   justify-content: space-between;
   width: 80%;
   margin-top: 10px;
-  color: var(--neon-blue);
+  color: var(--text-accent-blue);
   text-shadow: var(--glow);
   font-size: 0.9rem;
 }
 
 .gauge-scale .red {
-  color: var(--neon-red);
+  color: var(--text-accent-red);
   text-shadow: var(--red-glow);
 }
 
@@ -322,7 +402,7 @@ main {
 }
 
 .unit {
-  color: var(--neon-blue);
+  color: var(--text-accent-blue);
   letter-spacing: 6px;
   font-size: 1.1rem;
   margin-top: -10px;
@@ -331,7 +411,7 @@ main {
 .gear {
   font-size: 3rem;
   margin-top: 15px;
-  color: var(--neon-red);
+  color: var(--text-accent-red);
 }
 
 .warning-lights {
@@ -419,11 +499,14 @@ main {
 
 /* BOTÃO START / ENTRAR NO PARQUE */
 .start-portal {
-  margin-top: 10px;
-  opacity: 0;
-  pointer-events: none;
+  margin-top: 15px;
+  opacity: 1;
+  pointer-events: auto;
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-  transform: translateY(10px);
+  transform: translateY(0);
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .start-portal.visible {
@@ -433,11 +516,11 @@ main {
 }
 
 .start-button-round {
-  width: 130px;
-  height: 130px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  border: 3px solid #444;
-  box-shadow: 0 0 40px rgba(0,0,0,0.9), 0 0 20px rgba(255,0,60,0.6);
+  border: 2px solid #444;
+  box-shadow: 0 0 20px rgba(0,0,0,0.9), 0 0 10px rgba(255,0,60,0.6);
   background: radial-gradient(circle, #7a0000 0%, #220000 45%, #050505 100%);
   display: flex;
   align-items: center;
@@ -450,34 +533,36 @@ main {
 .start-button-round::before {
   content: "";
   position: absolute;
-  inset: 10px;
+  inset: 6px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 .start-button-round:hover {
-  box-shadow: 0 0 50px rgba(255,0,60,0.9);
+  box-shadow: 0 0 30px rgba(255,0,60,0.9);
   transform: translateY(-2px);
 }
 
 .start-label-main {
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 2px;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
   text-transform: uppercase;
+  color: #fff;
 }
 
 .start-label-sub {
-  font-size: 0.6rem;
+  font-size: 0.5rem;
   opacity: 0.8;
   text-transform: uppercase;
+  color: #ccc;
 }
 
 .start-ring {
   position: absolute;
-  inset: -8px;
+  inset: -4px;
   border-radius: 50%;
-  border: 2px dashed rgba(255,255,255,0.25);
+  border: 1px dashed rgba(255,255,255,0.25);
   animation: spin 6s linear infinite;
 }
 
@@ -486,23 +571,26 @@ main {
   to { transform: rotate(360deg); }
 }
 
-.start-portal small {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.7rem;
-  opacity: 0.7;
-  text-align: center;
-}
-
 /* ====== SISTEMA DE SOM AUTOMOTIVO ====== */
 #sound-system {
-  background: linear-gradient(135deg, #0a0a0f 0%, #050608 100%);
-  color: var(--text-main-dark);
+  background: var(--bg-sound-system);
+  color: var(--text-sound-system);
+  padding: 0 20px;
+  height: 0;
+  opacity: 0;
+  border-top: none;
+  border-bottom: none;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, padding 0.5s ease, background 0.3s ease, color 0.3s ease;
+}
+
+#sound-system.expanded {
+  height: auto;
+  opacity: 1;
   padding: 80px 20px;
   border-top: 2px solid var(--neon-pink);
   border-bottom: 2px solid var(--neon-pink);
-  position: relative;
-  overflow: hidden;
 }
 
 #sound-system::before {
@@ -531,7 +619,7 @@ main {
   text-transform: uppercase;
   letter-spacing: 4px;
   margin-bottom: 10px;
-  color: var(--neon-pink);
+  color: var(--text-accent-pink);
   text-shadow: var(--pink-glow);
   text-align: center;
 }
@@ -560,15 +648,15 @@ main {
   position: relative;
   height: 400px;
   border-radius: 30px;
-  background: linear-gradient(145deg, #111 0%, #000 100%);
-  border: 4px solid #222;
+  background: var(--bg-speaker);
+  border: 4px solid var(--border-component);
   overflow: hidden;
-  box-shadow: 0 0 50px rgba(0,0,0,0.8),
-              inset 0 0 60px #000;
+  box-shadow: var(--shadow-component), inset 0 0 60px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .speaker-left {
@@ -653,7 +741,7 @@ main {
 .speaker-label {
   position: absolute;
   bottom: 20px;
-  color: var(--neon-blue);
+  color: var(--text-accent-blue);
   font-family: 'Orbitron', sans-serif;
   font-size: 1.2rem;
   letter-spacing: 3px;
@@ -661,26 +749,26 @@ main {
 }
 
 .speaker-left .speaker-label {
-  color: var(--neon-blue);
+  color: var(--text-accent-blue);
   text-shadow: var(--glow);
 }
 
 .speaker-right .speaker-label {
-  color: var(--neon-pink);
+  color: var(--text-accent-pink);
   text-shadow: var(--pink-glow);
 }
 
 /* PAINEL DE CONTROLE DE SOM */
 .sound-control-panel {
-  background: linear-gradient(145deg, #111 0%, #000 100%);
+  background: var(--bg-sound-panel);
   border-radius: 25px;
-  border: 4px solid #222;
+  border: 4px solid var(--border-component);
   padding: 40px;
-  box-shadow: 0 0 80px rgba(0, 0, 0, 0.9),
-              inset 0 0 50px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-component), inset 0 0 50px rgba(0, 0, 0, 0.1);
   margin: 50px 0;
   position: relative;
   overflow: hidden;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .sound-control-panel::before {
@@ -706,7 +794,7 @@ main {
 .panel-brand {
   font-family: 'Orbitron', sans-serif;
   font-size: 1.8rem;
-  color: var(--neon-yellow);
+  color: var(--text-accent-yellow);
   text-shadow: 0 0 20px var(--neon-yellow);
   letter-spacing: 3px;
 }
@@ -715,7 +803,7 @@ main {
   font-size: 1rem;
   opacity: 0.8;
   letter-spacing: 2px;
-  color: var(--neon-blue);
+  color: var(--text-accent-blue);
 }
 
 .panel-status {
@@ -778,7 +866,7 @@ main {
   right: 20px;
   font-family: 'Orbitron', sans-serif;
   font-size: 1.2rem;
-  color: var(--neon-green);
+  color: var(--text-accent-green);
   text-shadow: var(--green-glow);
 }
 
@@ -793,17 +881,18 @@ main {
 }
 
 .control-group {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--bg-control-group);
   border-radius: 15px;
-  border: 2px solid #222;
+  border: 2px solid var(--border-component);
   padding: 25px;
   backdrop-filter: blur(10px);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .control-group-title {
   font-family: 'Orbitron', sans-serif;
   font-size: 1.2rem;
-  color: var(--neon-blue);
+  color: var(--text-accent-blue);
   margin-bottom: 25px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -835,13 +924,13 @@ main {
 .slider-label {
   font-size: 0.95rem;
   opacity: 0.9;
-  color: var(--neon-blue);
+  color: var(--text-accent-blue);
 }
 
 .slider-value {
   font-family: 'Orbitron', sans-serif;
   font-size: 1.1rem;
-  color: var(--neon-green);
+  color: var(--text-accent-green);
   text-shadow: var(--green-glow);
 }
 
@@ -943,7 +1032,7 @@ main {
   padding: 15px;
   background: rgba(0, 0, 0, 0.6);
   border: 2px solid var(--neon-purple);
-  color: var(--neon-purple);
+  color: var(--text-accent-purple);
   font-family: 'Orbitron', sans-serif;
   cursor: pointer;
   text-transform: uppercase;
@@ -972,7 +1061,7 @@ main {
 
 .sound-btn.red {
   border-color: var(--neon-red);
-  color: var(--neon-red);
+  color: var(--text-accent-red);
 }
 
 .sound-btn.red:hover,
@@ -984,7 +1073,7 @@ main {
 
 .sound-btn.green {
   border-color: var(--neon-green);
-  color: var(--neon-green);
+  color: var(--text-accent-green);
 }
 
 .sound-btn.green:hover,
@@ -996,7 +1085,7 @@ main {
 
 .sound-btn.yellow {
   border-color: var(--neon-yellow);
-  color: var(--neon-yellow);
+  color: var(--text-accent-yellow);
 }
 
 .sound-btn.yellow:hover,
@@ -1015,9 +1104,9 @@ main {
 }
 
 .preset-card {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--bg-control-group);
   border-radius: 15px;
-  border: 2px solid #222;
+  border: 2px solid var(--border-component);
   padding: 20px;
   cursor: pointer;
   transition: all 0.3s;
@@ -1045,7 +1134,7 @@ main {
   font-family: 'Orbitron', sans-serif;
   font-size: 1.1rem;
   margin-bottom: 5px;
-  color: var(--neon-orange);
+  color: var(--text-accent-orange);
 }
 
 .preset-desc {
@@ -1062,9 +1151,9 @@ main {
 }
 
 .meter-card {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--bg-control-group);
   border-radius: 15px;
-  border: 2px solid #222;
+  border: 2px solid var(--border-component);
   padding: 20px;
   text-align: center;
   transition: all 0.3s;
@@ -1078,7 +1167,7 @@ main {
 .meter-value {
   font-family: 'Orbitron', sans-serif;
   font-size: 2.5rem;
-  color: var(--neon-green);
+  color: var(--text-accent-green);
   margin-bottom: 5px;
   text-shadow: var(--green-glow);
 }
@@ -1117,8 +1206,9 @@ main {
 /* SEÇÕES CLARAS DO SITE */
 section {
   padding: 80px 20px;
-  background: var(--section-bg-light);
-  color: var(--text-main-light);
+  background: var(--bg-section);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .hero + section {
@@ -1155,11 +1245,12 @@ section {
 }
 
 .card {
-  background: var(--card-bg-light);
+  background: var(--bg-card);
   border-radius: 18px;
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-color);
   padding: 20px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .tag {
@@ -1345,13 +1436,14 @@ footer {
 }
 
 .car-radio {
-  background: #111;
-  border: 2px solid #333;
+  background: var(--bg-radio-outer);
+  border: 2px solid var(--border-component);
   border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.8);
+  box-shadow: var(--shadow-component), inset 0 0 20px rgba(0,0,0,0.1);
   font-family: 'Orbitron', sans-serif;
   position: relative;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .car-radio::before {
@@ -1364,18 +1456,19 @@ footer {
 }
 
 .radio-faceplate {
-  background: #1a1a1a;
+  background: var(--bg-radio-face);
   border-radius: 4px;
   padding: 15px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border-component);
   display: flex;
   flex-direction: column;
   gap: 15px;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .radio-display {
   background: #050505;
-  border: 2px solid #333;
+  border: 2px solid var(--border-component);
   border-radius: 4px;
   padding: 10px 20px;
   display: flex;
@@ -1384,6 +1477,7 @@ footer {
   position: relative;
   overflow: hidden;
   box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+  transition: border-color 0.3s ease;
 }
 
 .radio-display::after {
@@ -1550,7 +1644,7 @@ footer {
   border-radius: 50%;
   background: #222;
   border: 2px solid #444;
-  color: var(--neon-red);
+  color: var(--text-accent-red);
   font-size: 1.2rem;
   cursor: pointer;
   display: flex;
@@ -1566,7 +1660,7 @@ footer {
 }
 
 .radio-pwr-btn.active {
-  color: var(--neon-green);
+  color: var(--text-accent-green);
   border-color: var(--neon-green);
   box-shadow: inset 0 0 10px rgba(0, 255, 127, 0.2), 0 0 15px rgba(0, 255, 127, 0.4);
 }
