@@ -102,6 +102,58 @@
         </div>
       </div>
 
+      <!-- RÁDIO TUNER -->
+      <div class="radio-wrapper">
+        <div class="car-radio">
+          <div class="radio-faceplate">
+            <div class="radio-display">
+              <div class="radio-freq-area">
+                <span id="radioFreq">OFF</span>
+                <span class="radio-band" id="radioBand">FM</span>
+              </div>
+              <div class="radio-info-scroller">
+                <div class="station-name" id="stationName">Parque Automotivo Radio</div>
+                <div class="track-info" id="trackInfo">Sintonize para ouvir</div>
+              </div>
+              <div class="radio-stereo-indicator" id="stereoIndicator">STEREO</div>
+            </div>
+            
+            <div class="radio-controls-row">
+              <div class="tuner-section">
+                <button class="radio-btn-round" id="btnSeekDown" title="Seek Down">◄</button>
+                <div class="tuner-slider-wrapper">
+                  <input type="range" min="875" max="1080" value="875" class="tuner-slider" id="tunerSlider">
+                  <div class="tuner-scale">
+                    <span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span>
+                  </div>
+                </div>
+                <button class="radio-btn-round" id="btnSeekUp" title="Seek Up">►</button>
+              </div>
+            </div>
+
+            <div class="radio-bottom-row">
+              <button class="radio-pwr-btn" id="radioPwr" title="Power On/Off">
+                <div class="pwr-icon">⏻</div>
+              </button>
+              
+              <div class="preset-group">
+                <button class="preset-btn" data-slot="1">1</button>
+                <button class="preset-btn" data-slot="2">2</button>
+                <button class="preset-btn" data-slot="3">3</button>
+                <button class="preset-btn" data-slot="4">4</button>
+                <button class="preset-btn" data-slot="5">5</button>
+                <button class="preset-btn" data-slot="6">6</button>
+              </div>
+
+              <div class="radio-vol-wrapper">
+                <span class="vol-label">VOL</span>
+                <input type="range" min="0" max="100" value="50" class="radio-vol-slider" id="radioVol">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="hero-controls">
         <div>
           <button class="btn" onclick="ignite()" id="btnStart">Ligar Motor</button>

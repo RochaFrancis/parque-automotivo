@@ -1040,3 +1040,174 @@ document.addEventListener('click', function initAudio() {
   
   document.removeEventListener('click', initAudio);
 }, { once: true });
+
+
+// ========== RADIO TUNER ==========
+const radioFreqDisplay = document.getElementById('radioFreq');
+const radioStationName = document.getElementById('stationName');
+const radioTrackInfo = document.getElementById('trackInfo');
+const tunerSlider = document.getElementById('tunerSlider');
+const btnSeekUp = document.getElementById('btnSeekUp');
+const btnSeekDown = document.getElementById('btnSeekDown');
+const radioPwrBtn = document.getElementById('radioPwr');
+const radioVolSlider = document.getElementById('radioVol');
+const presetBtns = document.querySelectorAll('.preset-btn');
+const stereoIndicator = document.getElementById('stereoIndicator');
+
+let radioAudio = new Audio();
+let isRadioOn = false;
+let radioStations = [];
+let tuningTimeout;
+
+// Initialize Radio
+async function initRadio() {
+  try {
+    const response = await fetch('https://de1.api.radio-browser.info/json/stations/search?limit=40&countrycode=BR&hidebroken=true&order=clickcount&reverse=true');
+    const data = await response.json();
+    
+    // Assign random frequencies to stations
+    // Sort by frequency to make tuning realistic
+    radioStations = data.map(station => {
+      return {
+        ...station,
+        freq: (Math.random() * (108 - 87.5) + 87.5).toFixed(1)
+      };
+    }).sort((a, b) => parseFloat(a.freq) - parseFloat(b.freq));
+    
+    console.log('Radio stations loaded:', radioStations.length);
+  } catch (error) {
+    console.error('Error loading radio stations:', error);
+    if(radioStationName) radioStationName.textContent = "Erro de Conexão";
+  }
+}
+
+initRadio();
+
+// Power Button
+if(radioPwrBtn) {
+  radioPwrBtn.addEventListener('click', () => {
+    isRadioOn = !isRadioOn;
+    radioPwrBtn.classList.toggle('active', isRadioOn);
+    
+    if (isRadioOn) {
+      const freq = (tunerSlider.value / 10).toFixed(1);
+      radioFreqDisplay.textContent = freq;
+      tuneToFrequency(freq);
+    } else {
+      radioAudio.pause();
+      radioFreqDisplay.textContent = "OFF";
+      radioStationName.textContent = "Parque Automotivo Radio";
+      radioTrackInfo.textContent = "Sintonize para ouvir";
+      stereoIndicator.classList.remove('active');
+    }
+  });
+}
+
+// Tuner Slider
+if(tunerSlider) {
+  tunerSlider.addEventListener('input', () => {
+    if (!isRadioOn) return;
+    const freq = (tunerSlider.value / 10).toFixed(1);
+    radioFreqDisplay.textContent = freq;
+    
+    // Debounce tuning to avoid rapid switching
+    clearTimeout(tuningTimeout);
+    tuningTimeout = setTimeout(() => tuneToFrequency(freq), 300);
+  });
+}
+
+function tuneToFrequency(freq) {
+  if (!isRadioOn) return;
+  
+  // Find station within 0.3 MHz
+  const station = radioStations.find(s => Math.abs(parseFloat(s.freq) - parseFloat(freq)) < 0.3);
+  
+  if (station) {
+    playStation(station);
+  } else {
+    stopRadio();
+    radioStationName.textContent = "Chiado..."; // Static noise
+    radioTrackInfo.textContent = "";
+    stereoIndicator.classList.remove('active');
+  }
+}
+
+function playStation(station) {
+  if (radioAudio.src !== station.url_resolved) {
+    radioAudio.src = station.url_resolved;
+    radioAudio.play().catch(e => console.log("Playback error:", e));
+  }
+  radioStationName.textContent = station.name;
+  radioTrackInfo.textContent = station.tags || "Sem informações";
+  stereoIndicator.classList.add('active');
+}
+
+function stopRadio() {
+  radioAudio.pause();
+  radioAudio.src = "";
+}
+
+// Seek Buttons
+if(btnSeekUp) {
+  btnSeekUp.addEventListener('click', () => {
+    if (!isRadioOn) return;
+    const currentFreq = parseFloat(tunerSlider.value) / 10;
+    const nextStation = radioStations.find(s => parseFloat(s.freq) > currentFreq + 0.2);
+    
+    if (nextStation) {
+      setFrequency(nextStation.freq);
+    } else {
+      // Wrap around
+      if (radioStations.length > 0) setFrequency(radioStations[0].freq);
+    }
+  });
+}
+
+if(btnSeekDown) {
+  btnSeekDown.addEventListener('click', () => {
+    if (!isRadioOn) return;
+    const currentFreq = parseFloat(tunerSlider.value) / 10;
+    // Find last station with freq < current
+    // Since array is sorted, we can reverse find
+    const prevStation = [...radioStations].reverse().find(s => parseFloat(s.freq) < currentFreq - 0.2);
+    
+    if (prevStation) {
+      setFrequency(prevStation.freq);
+    } else {
+      // Wrap around to end
+      if (radioStations.length > 0) setFrequency(radioStations[radioStations.length - 1].freq);
+    }
+  });
+}
+
+function setFrequency(freq) {
+  tunerSlider.value = freq * 10;
+  radioFreqDisplay.textContent = freq;
+  tuneToFrequency(freq);
+}
+
+// Volume
+if(radioVolSlider) {
+  radioVolSlider.addEventListener('input', (e) => {
+    radioAudio.volume = e.target.value / 100;
+  });
+}
+
+// Presets
+presetBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!isRadioOn) return;
+    
+    const slot = parseInt(btn.dataset.slot);
+    // Distribute presets evenly across the list
+    const stationIndex = Math.floor((slot - 1) * (radioStations.length / 6));
+    
+    if (radioStations[stationIndex]) {
+      setFrequency(radioStations[stationIndex].freq);
+      
+      // Visual feedback
+      presetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  });
+});
