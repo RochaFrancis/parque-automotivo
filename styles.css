@@ -381,6 +381,7 @@ main {
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 14px rgba(0,242,255,0.06) inset;
+  z-index: 5;
 }
 
 .gauge-scale {
@@ -432,18 +433,18 @@ main {
   background: linear-gradient(180deg, #fff 0%, #e6e6e6 30%, #c8001f 70%, #c8001f 100%);
   bottom: 50%;
   left: 50%;
-  transform-origin: 50% 85%;
-  transform: rotate(-120deg);
+  transform: translateX(-50%) rotate(-120deg);
+  transform-origin: 50% 100%;
   box-shadow: 0 0 8px rgba(255,255,255,0.12), 0 0 20px rgba(200,0,30,0.12);
   border-radius: 3px 3px 6px 6px;
   transition: transform 0.06s ease-out;
-  z-index: 3;
+  z-index: 2;
 }
 
 .needle::after, .speed-needle::after {
   content: "";
   position: absolute;
-  bottom: -6px;
+  bottom: -2px;
   left: 50%;
   transform: translateX(-50%);
   width: 10px;
